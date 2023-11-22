@@ -1,2 +1,3 @@
-# demostraci-n-teorema-B-W
-demostración teorema B-W, análisis matemático
+# Demostración-teorema-B-W
+
+Demostración teorema Bolzano-Weiestrass para la asignatura de análisis matemático
