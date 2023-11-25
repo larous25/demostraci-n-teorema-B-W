@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" style="background:aqua;" width="500" height="500"></canvas>
+    <button id="drawPolygon">Dibujar Polígono</button>
+    <button id="clearCanvas">Limpiar Canvas</button>
+    <button id="showCoordinates">Mostrar Coordenadas</button>
+    <div class="coordenadas">
+
+    </div>
+    <script>
+        var canvas = document.getElementById('myCanvas')
+        var ctx = canvas.getContext('2d')
+        var points = []
+
+        var selectedPoint = null
+
+
+        // Dibujar el círculo
+
+        drawCircle(ctx)
+        // Dibujar los puntos
+
+
+        canvas.addEventListener('click', function (event) {
+            var rect = canvas.getBoundingClientRect()
+            var x = event.clientX - rect.left
+            var y = event.clientY - rect.top
+            let np = new Point(x, y)
+            np.draw()          
+            points.push(np)
+        })
+
+        document.getElementById('drawPolygon').addEventListener('click', function () {
+            if (points.length < 2) return
+            ctx.beginPath()
+            ctx.moveTo(points[0].x, points[0].y)
+            for (var i = 1; i < points.length - 2; i += 3) {
+                ctx.bezierCurveTo(...points[i].getCoordinates(), ...points[i+1].getCoordinates(), ...points[i+2].getCoordinates())
+            }
+            ctx.closePath()
+            ctx.stroke()
+        })
+
+        document.getElementById('clearCanvas').addEventListener('click', function () {
+            var coordinatesDiv = document.querySelector('.coordenadas')
+            coordinatesDiv.innerHTML = ''  // Limpiar el div
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            points = []  // Limpiar también el array de puntos
+            drawCircle(ctx)
+        })
+
+        document.getElementById('showCoordinates').addEventListener('click', function () {
+            var coordinatesDiv = document.querySelector('.coordenadas')
+            coordinatesDiv.innerHTML = ''  // Limpiar el div
+            for (var i = 0; i < points.length; i++) {
+                coordinatesDiv.innerHTML += points[i].getOrderedPair() + '<br>'
+            }
+        })
+
+        canvas.addEventListener('mousedown', function (event) {
+            let tolerance = 20
+            var rect = canvas.getBoundingClientRect()
+            var x = event.clientX - rect.left
+            var y = event.clientY - rect.top
+            for (var i = 0; i < points.length; i++) {
+                if (Math.abs(x - points[i].getX()) < tolerance && Math.abs(y - points[i].getY()) < tolerance) {
+                    selectedPoint = points[i]
+                    console.log("mouse down")
+                    console.log(selectedPoint.handleClick())
+                    break
+                }
+            }
+        })
+
+        function drawCircle(ctx) {
+            var centerX = canvas.width / 2
+            var centerY = canvas.height / 2
+            var radius = 100
+            var numPoints = 20
+            ctx.fillStyle = 'gray'
+            ctx.beginPath()
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI)
+            ctx.stroke()
+            for (var i = 0; i < numPoints; i++) {
+                var angle = i * 2 * Math.PI / numPoints
+                var x = centerX + radius * Math.cos(angle)
+                var y = centerY + radius * Math.sin(angle)
+                ctx.beginPath()
+                ctx.arc(x, y, 3, 0, 2 * Math.PI)  // Dibujar un pequeño círculo para representar el punto
+                ctx.fill()
+            }
+
+        }
+
+
+        canvas.addEventListener('mousemove', function (event) {
+            if (selectedPoint) {
+                var rect = canvas.getBoundingClientRect()
+                selectedPoint.setX(event.clientX - rect.left)
+                selectedPoint.setY(event.clientY - rect.top)
+                // redrawCanvas()
+            }
+        })
+
+        canvas.addEventListener('mouseup', function (event) {
+            selectedPoint = null
+        })
+
+
+        function redrawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            drawPoints()
+            drawPolygon()
+            drawCircle()
+        }
+
+
+        class Point {
+            constructor(x, y) {
+                this.x = x
+                this.y = y
+            }
+
+            handleClick() {
+                // Manejar el evento de click aquí
+                console.log(`Point at ${this.getOrderedPair} was clicked`)
+            }
+
+            draw() {
+                ctx.fillRect(this.x - 2, this.y - 2, 4, 4)  // Dibujar un pequeño rectángulo para representar el punto
+            }
+            
+            setX(x) {
+                this.x = x
+            }
+
+            getX() {
+                return this.x
+            }
+
+            setY(y) {
+                this.y = y
+            }
+
+            getY() {
+                return this.y
+            }
+
+            getOrderedPair() {
+                return '(' + this.x + ', ' + this.y + ')'
+            }
+
+            getCoordinates() {
+                return  [this.x,  this.y] 
+            }
+        }       
+    </script>
+</body>
+
+</html>

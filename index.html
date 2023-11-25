@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deomostración Teorema Bolzano-Weierstrass</title>
     <style>
-        body{
+        body {
             background-color: #031331;
             color: white;
             font-size: 28px;
@@ -17,32 +18,46 @@
             height: 100vh;
             overflow: hidden;
         }
+
         .slide {
+            float: left;
             display: none;
+            margin: 100px;
             position: absolute;
             width: 100%;
             height: 100%;
             animation-name: slide;
             animation-duration: 2s;
             animation-fill-mode: forwards;
-            animation-iteration-count: 
+            animation-iteration-count:
         }
+
+        .slide > div {
+            float:left;
+        }
+
         .slide:nth-child(1) {
             display: block;
         }
+
         @keyframes slide {
-            0% { 
+            0% {
                 opacity: 0;
-                left: 100%; }
-            100% { 
+                left: 100%;
+            }
+
+            100% {
                 opacity: 1;
-                left: 0%; }
+                left: 0%;
+            }
         }
+
         .controls {
             position: relative;
             width: 100%;
             background: transparent;
         }
+
         .controls .btns {
             position: fixed;
             z-index: 10;
@@ -50,87 +65,154 @@
             right: 0;
             margin: 100px;
         }
-        .controls .btns button{
+
+        .controls .btns button {
             color: whitesmoke;
             background-color: #031331;
             border: whitesmoke 2px solid;
             border-radius: 15px;
             padding: 20px;
+            cursor: pointer;
 
+        }
+
+        .controls .btns button:hover {
+            background-color: aliceblue;
+            color: #031331;
+        }
+
+        .theorem {
+            margin: 100px;
         }
     </style>
 </head>
+
 <body>
     <div class="carousel">
         <div class="slide">
-            
+            <div class="theorem" style="width: 600px;">
+                <h4>Puntos de acumulación de $A$</h4>
+                $x_0$ es un punto de acomulación de $A$ sí y solos sí $\forall r>0$ se cumple que
+                $\left(B_r(x_0) / \{x_0\}\right) \cap A \neq \left\{\phi\right\}$
 
-\textit{\textbf{Teorema}}
+                <h4>Proposicion:</h4>
+                Sean $A \in \mathbb{R}^n$ y $x \in \mathbb{R}^n$. $x$ es un punto de acumulacion
+                de $A$ si y solo si para toda $r>0$ se tiene que $B_r(x) \cap A$ sea un conjunto infinito.
 
-Si un conjunto acotado $S$ de $\mathbb{R}$ contiene una infinidad de puntos, entonces existe por lo menos un punto de $\mathbb{R}^n$ que es un punto de acumulación de $S$.
-
-\hspace{3mm}
-
-
-
-
+                <div class="">
+                    <button id="pBtonSlide1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+                        </svg>
+                    </button>
+                    <button id="nBtonSlide1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <canvas id="myCanvas" width="600" height="600" style="background-color: rgb(0, 132, 255);"></canvas>
         </div>
         <div class="slide">
-            \textbf{\textit{Demostración:}}
+            <div class="theorem">
+                <H1>
+                    Teorema de Bolzano-Weierstrass
+                </H1>
+
+                <div class="definition">
+                    Si un conjunto acotado $S$ de $\mathbb{R}$ contiene una infinidad de puntos, entonces existe por lo
+                    menos un punto de
+                    $\mathbb{R}^n$ que es un punto de acumulación de $S$.
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <H2>demostración</H2>
 
             Para fijar ideas daremos primero la demostración en el caso $\mathrm{R}^1$.
-            Como $S$ es un conjunto acotado, está contenido en un cierto intervalo $[-a, a]$. 
-            Uno, por por lo menos, de los subintervalos $[-a, 0],[0, a]$ contiene un subconjunto infinito de $S$. Llamemos a este subintervalo $\left[a_1, b_1\right]$. Dividamos $\left[a_1, b_1\right]$ en dos partes iguales y obtendremos un subintervalo $\left[a_2, b_2\right]$ que contendrá un subconjunto de $S$, infinito; y continuemos este proceso. 
-            
-            De esta manera hemos obtenido una colección numerable de intervalos tales que el $n$-ésimo intervalo $\left[a_n, b_n\right]$ tiene longitud $b_n-a_n=a / 2^{n-1}$. 
-            Es claro que el $\sup$ de los puntos extremos de la izquierda $a_n$ y el $\inf$. de los puntos extremos de la derecha $b_n$ coinciden; llamémosle $x$. [¿Por qué son iguales?] El punto $x$ será de acumulación de $S$ ya que, si $r$ es un número positivo, el intervalo $\left[a_n, b_n\right]$ estará contenido en $B_{r}(x) $ siempre que $n$ sea suficientemente grande para que $b_n-a_n<r / 2$. El intervalo $B_{r}(x)$ contiene un punto de $S$ distinto de $x$ y, por lo tanto, $x$ es un punto de acumulación de $S$. Esto prueba el teorema para $\mathbf{R}^1$. (Obsérvese que el punto de acumulación $x$ puede pertenecer o no a $S$.)
-           
-           Ahora daremos una demostración para $\mathbf{R}^n, n>1$, extendiendo las ideas seguidas al tratar el caso $\mathbf{R}^{1}$. (El lector podrá seguir la demostración en el caso $\mathbf{R}^2$ recurriendo a la Fig. 3.1.)
-        
-           
-           
+            Como $S$ es un conjunto acotado, está contenido en un cierto intervalo $[-a, a]$.
+            Uno, por por lo menos, de los subintervalos $[-a, 0],[0, a]$ contiene un subconjunto infinito de $S$.
+            Llamemos a este subintervalo $\left[a_1, b_1\right]$. Dividamos $\left[a_1, b_1\right]$ en dos partes
+            iguales y obtendremos un subintervalo $\left[a_2, b_2\right]$ que contendrá un subconjunto de $S$, infinito;
+            y continuemos este proceso.
+
+            De esta manera hemos obtenido una colección numerable de intervalos tales que el $n$-ésimo intervalo
+            $\left[a_n, b_n\right]$ tiene longitud $b_n-a_n=a / 2^{n-1}$.
+            Es claro que el $\sup$ de los puntos extremos de la izquierda $a_n$ y el $\inf$. de los puntos extremos de
+            la derecha $b_n$ coinciden; llamémosle $x$.
+            [¿Por qué son iguales?] El punto $x$ será de acumulación de $S$ ya que, si $r$ es un número positivo, el
+            intervalo $\left[a_n, b_n\right]$ estará contenido en $B_{r}(x) $ siempre que $n$ sea suficientemente grande
+            para que $b_n-a_n< \frac{r}{2}$. El intervalo $B_{r}(x)$ contiene un punto de $S$ distinto de $x$ y, por lo
+                tanto, $x$ es un punto de acumulación de $S$. Esto prueba el teorema para $\mathbf{R}^1$. (Obsérvese que
+                el punto de acumulación $x$ puede pertenecer o no a $S$.) Ahora daremos una demostración para
+                $\mathbf{R}^n, n>1$, extendiendo las ideas seguidas al tratar el caso $\mathbf{R}^{1}$. (El lector podrá
+                seguir la demostración en el caso $\mathbf{R}^2$ recurriendo a la Fig. 3.1.)
+
+
+
         </div>
         <div class="slide">
-            Como $S$ está acotado, $S$ podrá ser incluido en una cierta $n$-bola $B_{a}(0)$. $a>0, y$ por lo tanto en el intervalo $n$-dimensional $J_1$ definido por las desigualdades
+            Como $S$ está acotado, $S$ podrá ser incluido en una cierta $n$-bola $B_{a}(0)$. $a>0, y$ por lo tanto en el
+            intervalo $n$-dimensional $J_1$ definido por las desigualdades
             $$
             -a \leq x_k \leq a \quad(k=1,2, \ldots, n)
             $$
-            
+
             Aquí $J_1$ designa el producto cartesiano
             $$
             J_1=I_1^{(1)} \times I_2^{(1)} \times \cdots \times I_r^{(1)}
             $$
-            
-            esto es, el conjunto de puntos $\left(x_i, \ldots, x_n\right)$,  
-            donde $x_{k} \in I_{k}^{(1)}$ y donde cada $I_{k}^{(1)}$ es un intervalo unidimensional $-a \leq x_k \leq a$. Cada intervalo $I_{k }^{1}$ se puede subdividir en dos subintervalos $I_{k, 1}^{(1)}$ e $I_{k, 2}^{(i)}$ definidos por las desigualdades
-            
+
+            esto es, el conjunto de puntos $\left(x_i, \ldots, x_n\right)$,
+            donde $x_{k} \in I_{k}^{(1)}$ y donde cada $I_{k}^{(1)}$ es un intervalo unidimensional $-a \leq x_k \leq
+            a$. Cada intervalo $I_{k }^{1}$ se puede subdividir en dos subintervalos $I_{k, 1}^{(1)}$ e $I_{k, 2}^{(i)}$
+            definidos por las desigualdades
+
             $$
             I_{k,1}^{(1)}:-a \leq x_k \leq 0 ; \quad \quad I_{k,2}^{(1)}: 0 \leq x_k \leq a
             $$
-            
+
             Ahora, consideramos todos los productos cartesianos de la forma
             $$
             I_{1, k_1}^{(1)} \times I_{2, k_2}^{(1)} \cdots \times I_{n, k_n}^{(1)}
             $$
-            donde cada $k_i=1$ o $2$ . Hay, exactamente, $2^n$ productos de este tipo y, además, cada uno de ellos es un intervalo $n$-dimensional. La reunión de esto $2^n$ intervalos es al intervalo original $J_1$, que contiene a $S$; y por lo tanto, uno por lo menos de los $2^n$ intervalos $(a)$ contiene una infinidad de puntos de $S$. Elijamos una de los que verifican esta propiedad y llamémosle $J_2$ : podrá expresarse también
+            donde cada $k_i=1$ o $2$ . Hay, exactamente, $2^n$ productos de este tipo y, además, cada uno de ellos es un
+            intervalo $n$-dimensional. La reunión de esto $2^n$ intervalos es al intervalo original $J_1$, que contiene
+            a $S$; y por lo tanto, uno por lo menos de los $2^n$ intervalos $(a)$ contiene una infinidad de puntos de
+            $S$. Elijamos una de los que verifican esta propiedad y llamémosle $J_2$ : podrá expresarse también
             $$
             J_2=I_1^{(2)} \times I_2^{(2)} \times \cdots \times I_n^{(2)},
             $$
-            
-            
+
+
         </div>
 
         <div class="slide">
-                        
-            donde cada $k_s=1$ o 2 . Hay, exactamente, $2^n$ productos de este tipo y, además, cada uno de ellos es un intervalo $n$-dimensional. La reunión de estos $2^{n}$ intervalos es el intervalo original $J_1$, que contiene a $S$; y por lo tanto, uno por lo menos de los $2^n$ intervalos (a) contiene una infinidad de puntos de $S$. Elijamos uno de los que verifican esta propiedad y llamémosle $j_2$ : podrá expresarse también
+
+            donde cada $k_s=1$ o 2 . Hay, exactamente, $2^n$ productos de este tipo y, además, cada uno de ellos es un
+            intervalo $n$-dimensional. La reunión de estos $2^{n}$ intervalos es el intervalo original $J_1$, que
+            contiene a $S$; y por lo tanto, uno por lo menos de los $2^n$ intervalos (a) contiene una infinidad de
+            puntos de $S$. Elijamos uno de los que verifican esta propiedad y llamémosle $j_2$ : podrá expresarse
+            también
             $$
             J_2=I_1^{(2)} \times I_2^{(2)} \times \cdots \times l_n^{(2)},
             $$
-            donde cada $I_{k}^{(2)}$ es uno de los subintervalos de $I_{k}^{(1)}$ de longitud $a$. Procedamos ahora con $J_2$ de la misma manera como hemos procedido con $J_1$, dividiendo cada intervalo $I_{k}^{(2)}$ en dos partes iguales y obteniendo un intervalo $n$-dimensional $J_{3}$, que contenga una infinidad do puntos de $S$. Si continuamos este proceso, obtendremos una colección numerable de intervalos $n$-dimensionales $J_1, J_2, J_3, \ldots$, tales que el intervalo $m$-ésimo $J_m$ verifica la propiedad de contener un subconjunto infinito de $S$ y se puede expresar en la forma
+            donde cada $I_{k}^{(2)}$ es uno de los subintervalos de $I_{k}^{(1)}$ de longitud $a$. Procedamos ahora con
+            $J_2$ de la misma manera como hemos procedido con $J_1$, dividiendo cada intervalo $I_{k}^{(2)}$ en dos
+            partes iguales y obteniendo un intervalo $n$-dimensional $J_{3}$, que contenga una infinidad do puntos de
+            $S$. Si continuamos este proceso, obtendremos una colección numerable de intervalos $n$-dimensionales $J_1,
+            J_2, J_3, \ldots$, tales que el intervalo $m$-ésimo $J_m$ verifica la propiedad de contener un subconjunto
+            infinito de $S$ y se puede expresar en la forma
             $$
-            J_m=I_{1}^{(m)} \times I_{2}^{(m)} \times \cdots \times I_{n}^{(m)}  \quad \text { donde } I_{k}^{(m)} \subseteq I_{k}^{(1)} .
+            J_m=I_{1}^{(m)} \times I_{2}^{(m)} \times \cdots \times I_{n}^{(m)} \quad \text { donde } I_{k}^{(m)}
+            \subseteq I_{k}^{(1)} .
             $$
-            
+
             Escribiendo
             $$
             I_{k}^{(m)}=\left[a_{k}^{(m)}, b_{k}^{(m)}\right]
@@ -139,52 +221,73 @@ Si un conjunto acotado $S$ de $\mathbb{R}$ contiene una infinidad de puntos, ent
             $$
             b_{k}^{(m)}-a_{k}^{(m)}=\frac{a}{2^{m-2}} \quad(k=1,2, \cdots, n) .
             $$
-            
-            Para cada $k$ fijo, el $\sup$ de todos los extremos de la izquierda $a_{k}^{(m)},(m=1,2,\ldots$, deberá ser igual al $\inf$ de todos los extremos de la derecha $b_{k}^{m}, (m=1,2, \ldots)$, y este valor común lo designaremos por $t_{k}$. Afirmamos ahora que el punto $t=\left(t_1, t_2, \ldots, t_n\right)$ es un punto de acumulación de $S$. Para verlo, basta tomar una $n$-bola $B_{n}(t)$. El punto $t$ pertenece a cada uno de los intervalos $J_1, J_2, \ldots$, construidos anteriormente, y cuando $m$ es tal que $\frac{a}{2^{m-2}}<\frac{r }{2}$, el entorno incluirá a $J_m$.  Pero como $J_n$ contiene una infinidad de puntos de $S$, también los contendrá $B_r(t)$, lo que demuestra que $t$ es, realmente, un punto de acumulación de $S$.
- 
 
+            Para cada $k$ fijo, el $\sup$ de todos los extremos de la izquierda $a_{k}^{(m)},(m=1,2,\ldots$, deberá ser
+            igual al $\inf$ de todos los extremos de la derecha $b_{k}^{m}, (m=1,2, \ldots)$, y este valor común lo
+            designaremos por $t_{k}$. Afirmamos ahora que el punto $t=\left(t_1, t_2, \ldots, t_n\right)$ es un punto de
+            acumulación de $S$. Para verlo, basta tomar una $n$-bola $B_{n}(t)$. El punto $t$ pertenece a cada uno de
+            los intervalos $J_1, J_2, \ldots$, construidos anteriormente, y cuando $m$ es tal que $\frac{a}{2^{m-2}}
+            <\frac{r }{2}$, el entorno incluirá a $J_m$. Pero como $J_n$ contiene una infinidad de puntos de $S$,
+                también los contendrá $B_r(t)$, lo que demuestra que $t$ es, realmente, un punto de acumulación de $S$.
+                </div>
         </div>
-    </div>
-    <div class="controls">
-        <div class="btns">
-            <button id="prevBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-                  </svg>
-            </button>
-            <button id="nextBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
-                  </svg>
-            </button>
+        <div class="controls">
+            <div class="btns">
+                <button id="prevBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+                    </svg>
+                </button>
+                <button id="nextBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+                    </svg>
+                </button>
+            </div>
         </div>
-    </div>
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-            }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-    </script>
-</script>
-<script>
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+        </script>
+        </script>
+        <script>
 
-    var slides = document.querySelectorAll('.slide');
-    var currentSlide = 0;
+            var slides = document.querySelectorAll('.slide');
+            var currentSlide = 0;
+            var stepAnimationOne = 1;
 
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        slides[currentSlide].style.display = 'none';
-        currentSlide = (currentSlide-1+slides.length) % slides.length;
-        slides[currentSlide].style.display = 'block';
-    });
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                slides[currentSlide].style.display = 'none';
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                slides[currentSlide].style.display = 'block';
+            });
 
-    document.getElementById('nextBtn').addEventListener('click', () => {
-        slides[currentSlide].style.display = 'none';
-        currentSlide = (currentSlide+1) % slides.length;
-        slides[currentSlide].style.display = 'block';
-    });
-</script>
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                slides[currentSlide].style.display = 'none';
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].style.display = 'block';
+            });
+
+            document.getElementById('pBtonSlide1').addEventListener('click', () => {
+                stepAnimationOne--;
+                animationOne(stepAnimationOne);
+            });
+            document.getElementById('nBtonSlide1').addEventListener('click', () => {
+                stepAnimationOne++;
+                animationOne(stepAnimationOne);
+            });
+        </script>
+        <script src="functions.js"></script>
+        <script src="main.js"></script>
 </body>
-</html>
+
+</html> 
