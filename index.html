@@ -29,7 +29,6 @@
             animation-name: slide;
             animation-duration: 2s;
             animation-fill-mode: forwards;
-            animation-iteration-count:
         }
 
         .slide > div {
@@ -116,7 +115,7 @@
                     </button>
                 </div>
             </div>
-            <canvas id="myCanvas" width="600" height="600" style="background-color: rgb(0, 132, 255);"></canvas>
+            <canvas id="myCanvas" width="600" height="600" style="background-color: rgb(161, 210, 255);"></canvas>
         </div>
         <div class="slide">
             <div class="theorem">
@@ -261,30 +260,7 @@
         </script>
         <script>
 
-            var slides = document.querySelectorAll('.slide');
-            var currentSlide = 0;
-            var stepAnimationOne = 1;
 
-            document.getElementById('prevBtn').addEventListener('click', () => {
-                slides[currentSlide].style.display = 'none';
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                slides[currentSlide].style.display = 'block';
-            });
-
-            document.getElementById('nextBtn').addEventListener('click', () => {
-                slides[currentSlide].style.display = 'none';
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].style.display = 'block';
-            });
-
-            document.getElementById('pBtonSlide1').addEventListener('click', () => {
-                stepAnimationOne--;
-                animationOne(stepAnimationOne);
-            });
-            document.getElementById('nBtonSlide1').addEventListener('click', () => {
-                stepAnimationOne++;
-                animationOne(stepAnimationOne);
-            });
         </script>
         <script src="functions.js"></script>
         <script src="main.js"></script>

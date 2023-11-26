@@ -78,4 +78,31 @@ var innerRadius = 50;
 
 
 
-animationOne(1)
+
+
+var stepAnimationOne = 1;
+var slides = document.querySelectorAll('.slide');
+var currentSlide = 0;
+
+animationOne(stepAnimationOne)
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+    slides[currentSlide].style.display = 'none';
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    slides[currentSlide].style.display = 'block';
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+    slides[currentSlide].style.display = 'none';
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].style.display = 'block';
+});
+
+document.getElementById('pBtonSlide1').addEventListener('click', () => {
+    stepAnimationOne--;
+    animationOne(stepAnimationOne);
+});
+document.getElementById('nBtonSlide1').addEventListener('click', () => {
+    stepAnimationOne++;
+    animationOne(stepAnimationOne);
+});

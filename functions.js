@@ -1,10 +1,10 @@
 var canvas = document.getElementById('myCanvas')
 var ctx = canvas.getContext('2d')
-
+var startAnimationDottedCircle = null;
 
 function drawPoint(pointX, pointY, text = "") {
     // Dibujar el punto
-    ctx.fillRect(pointX, pointY, 2, 2)
+    ctx.fillRect(pointX, pointY, 5, 5)
 
     if (text) {
         // Dibujar el texto
@@ -14,26 +14,31 @@ function drawPoint(pointX, pointY, text = "") {
 }
 
 function drawDottedCircle(centerX, centerY, radius, options = {}) {
-    const numberOfDots = 100;
+   
     if ((typeof options.animate !== 'undefined') && options.animate) {
-        if (typeof options.numberOfDots !== 'undefined') {
-            options.numberOfDots = numberOfDots
-        }
-        options.numberOfDots--
-        let i = numberOfDots - options.numberOfDots
-        let angle = i * 2 * Math.PI / numberOfDots
-        drawDotCircle(centerX, centerY, radius, angle)
-        if (options.numberOfDots > 0) {
-            window.requestAnimationFrame((timeStamp) => {
-                console.log(timeStamp)
-                drawDottedCircle(centerX, centerY, radius, options)
 
-            })
+        window.requestAnimationFrame(timestamp => {
+            if (!startAnimationDottedCircle) {
+                startAnimationDottedCircle = timestamp
+            }
+
+            const elapsed = timestamp - startAnimationDottedCircle
+            const duration = 2500
+            const progress = Math.min(elapsed/duration, 1)
+
+            let angle = progress * 2 * Math.PI 
+            drawDotCircle(centerX, centerY, radius, angle)
+                           
+            if (elapsed < duration) {
+                drawDottedCircle(centerX, centerY, radius, options)
+            }
+        })
+    } else {
+        const numberOfDots = 150;
+        for (let i = 0; i < numberOfDots; i++) {
+            let angle = i * 2 * Math.PI / numberOfDots
+            drawDotCircle(centerX, centerY, radius, angle)
         }
-    }
-    for (let i = 0; i < numberOfDots; i++) {
-        let angle = i * 2 * Math.PI / numberOfDots
-        drawDotCircle(centerX, centerY, radius, angle)
     }
 }
 
@@ -102,13 +107,13 @@ function drawSetShape() {
 
 
 function animationOneStepOne() {
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'black';
     ctx.fill();
     drawDottedCircle(centerX, centerY, outerRadius + 200);
     ctx.fillStyle = 'red';
     ctx.fill();
     drawPoint(centerX + 195, centerY + 195);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'black';
     ctx.fill();
     drawPoint(centerX, centerY, 'X');
 }
@@ -119,28 +124,65 @@ function animationOneStepTwo(animation = false) {
     ctx.fill();
     let options = {}
     if (animation) {
+        startAnimationDottedCircle = undefined;
         options.animate = true
         options.numberOfDots = 100
     }
     drawDottedCircle(centerX, centerY, outerRadius + 160, options);
+}
+
+function animationOneStepThree() {
+    animationOneStepTwo();
     ctx.fillStyle = 'red';
     ctx.fill();
     drawPoint(centerX + 175, centerY + 175);
 }
 
-function animationOneStepThree(animation = false) {
-    animationStepTwo();
+
+function animationOneStepFour(animation = false) {
+    animationOneStepThree();
     ctx.fillStyle = 'green';
     ctx.fill();
-    drawDottedCircle(centerX, centerY, outerRadius + 135);
+    let options = {}
+    if (animation) {
+        startAnimationDottedCircle = undefined;
+        options.animate = true
+        options.numberOfDots = 100
+    }
+    drawDottedCircle(centerX, centerY, outerRadius + 135, options);
+}
+
+function animationOneStepFive(animation = false) {
+    animationOneStepFour();
     ctx.fillStyle = 'red';
     ctx.fill();
     drawPoint(centerX + 155, centerY + 155);
 }
 
 
+function animationOneStepSix(animation = false) {
+    animationOneStepFive();
+    ctx.fillStyle = 'green';
+    ctx.fill();
+    let options = {}
+    // if (animation) {
+    //     startAnimationDottedCircle = undefined;
+    //     options.animate = true
+    //     options.numberOfDots = 100
+    // }
+    // drawDottedCircle(centerX, centerY, outerRadius + 120, options);
+    for(let i = 0; i < 150; i++) {
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        drawPoint(centerX + 150-i, centerY + 150 - i );
+    }
+}
+
+
+
 // animation
 function animationOne(step) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (step == 1) {
         animationOneStepOne()
@@ -152,6 +194,18 @@ function animationOne(step) {
 
     if (step == 3) {
         animationOneStepThree()
+    }
+
+    if (step == 4) {
+        animationOneStepFour(true)
+    }
+
+    if (step == 5) {
+        animationOneStepFive()
+    }
+
+    if (step == 6) {
+        animationOneStepSix(true)
     }
 
 }
