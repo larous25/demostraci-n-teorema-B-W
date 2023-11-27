@@ -165,12 +165,6 @@ function animationOneStepSix(animation = false) {
     ctx.fillStyle = 'green';
     ctx.fill();
     let options = {}
-    // if (animation) {
-    //     startAnimationDottedCircle = undefined;
-    //     options.animate = true
-    //     options.numberOfDots = 100
-    // }
-    // drawDottedCircle(centerX, centerY, outerRadius + 120, options);
     for(let i = 0; i < 150; i++) {
         ctx.fillStyle = 'red';
         ctx.fill();
