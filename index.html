@@ -81,7 +81,7 @@
         }
 
         .theorem {
-            margin: 100px;
+            margin: 20px;
         }
 
         .btns1slide {
@@ -110,7 +110,7 @@
         }
 
         .minislide {
-            padding: 20px;
+            padding: 10px;
         }
 
         .minislide:hover {
@@ -134,33 +134,36 @@
 <body>
     <div class="carousel">
         <div class="slide">
-            <div class="theorem" style="width: 600px;">
-                <h4>Puntos de acumulación de $A$</h4>
-                $x_0$ es un punto de acomulación de $A$ sí y solos sí $\forall r>0$ se cumple que
-                $\left(B_r(x_0) / \{x_0\}\right) \cap A \neq \left\{\phi\right\}$
+            <div style="margin: 100px;">
+                <div class="theorem" style="width: 600px;float: left;">
+                    <h4>Puntos de acumulación de $A$</h4>
+                    $x_0$ es un punto de acomulación de $A$ sí y solos sí $\forall r>0$ se cumple que
+                    $\left(B_r(x_0) / \{x_0\}\right) \cap A \neq \left\{\phi\right\}$
 
-                <h4>Proposicion:</h4>
-                Sean $A \in \mathbb{R}^n$ y $x \in \mathbb{R}^n$. $x$ es un punto de acumulacion
-                de $A$ si y solo si para toda $r>0$ se tiene que $B_r(x) \cap A$ sea un conjunto infinito.
+                    <h4>Proposicion:</h4>
+                    Sean $A \in \mathbb{R}^n$ y $x \in \mathbb{R}^n$. $x$ es un punto de acumulacion
+                    de $A$ si y solo si para toda $r>0$ se tiene que $B_r(x) \cap A$ sea un conjunto infinito.
 
-                <div class="btns1slide">
-                    <button id="pBtonSlide1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-arrow-up" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
-                        </svg>
-                    </button>
-                    <button id="nBtonSlide1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-arrow-down" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
-                        </svg>
-                    </button>
+                    <div class="btns1slide">
+                        <button id="pBtonSlide1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+                            </svg>
+                        </button>
+                        <button id="nBtonSlide1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+                <canvas id="puntoDeAcomulacion" width="650" height="650"
+                    style="background-color: rgb(255, 255, 255);float: left;border-radius: 10px;"></canvas>
             </div>
-            <canvas id="puntoDeAcomulacion" width="600" height="600" style="background-color: rgb(255, 255, 255);"></canvas>
         </div>
 
 
@@ -170,36 +173,41 @@
                 <div style="width: 58%;float: left;box-sizing: content-box;">
                     <h3>Demostración</h3>
 
-                    $\Rightarrow$ Supongamos que existe $r>0$ tal que $B_r(x) \cap A$ es un conjunto finito.
+                    <div style="margin-bottom:10px ;">
+                        $\Rightarrow$ Supongamos que existe $r>0$ tal que $B_r(x) \cap A$ es un conjunto finito.
 
-                    <div class="minislide">
-                        Si $\left(B_1(x) \backslash\{x\}\right) \cap A=\emptyset$, entonces $x$ no es punto de
-                        acumulación de
-                        $A$.
+                        <div class="minislide">
+                            Si $\left(B_1(x) \backslash\{x\}\right) \cap A=\emptyset$, entonces $x$ no es punto de
+                            acumulación de
+                            $A$.
+                        </div>
+
+                        <div class="minislide active" style="margin-bottom:10px ;">
+                            Si $\left(B_r(x) \backslash\{x\}\right) \cap A \neq \emptyset$, entonces $\left(B_r(x)
+                            \backslash\{x\}\right) \cap A=\left\{x_1, \ldots, x_k\right\}$. Definimos
+                            $$r_0=\min \left\{d\left(x, x_i\right) \mid i \in\{1, \ldots, k\}\right\} \Rightarrow
+                            r_0>0.$$
+                            Como $r_0 \leqslant d\left(x, x_i\right) \Rightarrow x_i \notin B_{r_0}(x)$ para cada $i
+                            \in\{1,
+                            \ldots,
+                            k\}$. Dado que
+
+                            $$B_{r_0} \subset B_r \Rightarrow\left(B_{r_0}(x) \backslash\{x\}\right) \cap A=\emptyset.$$
+                        </div>
+
+                        $\therefore x \notin A^{\prime}$.
                     </div>
 
-                    <div class="minislide active">
-                        Si $\left(B_r(x) \backslash\{x\}\right) \cap A \neq \emptyset$, entonces $\left(B_r(x)
-                        \backslash\{x\}\right) \cap A=\left\{x_1, \ldots, x_k\right\}$. Definimos
-                        $$r_0=\min \left\{d\left(x, x_i\right) \mid i \in\{1, \ldots, k\}\right\} \Rightarrow r_0>0.$$
-                        Como $r_0 \leqslant d\left(x, x_i\right) \Rightarrow x_i \notin B_{r_0}(x)$ para cada $i \in\{1,
-                        \ldots,
-                        k\}$. Dado que
-
-                        $$B_{r_0} \subset B_r \Rightarrow\left(B_{r_0}(x) \backslash\{x\}\right) \cap A=\emptyset.$$
-                    </div>
-                    <br>
-                    $\therefore x \notin A^{\prime}$.
-                    <br>
                     $\Leftarrow$ Sea $r>0$. Como $B_r(x) \cap A$ es un conjunto infinito,
-                    <div class="minislide">
+                    <div class="minislide" style="margin-bottom:10px ;">
                         entonces $\left(B_r(x) \backslash\{x\}\right) \cap A \neq \emptyset$ (tambien es infinito)
                     </div>
-                    <br>
+
                     Por lo tanto $x \in A^{\prime}$.
                 </div>
                 <div style="width: 40%; float: left;padding: 15px;">
-                    <canvas id="puntoDeAcomulacion2AnimacionSolo" width="600" height="600">
+                    <canvas id="puntoDeAcomulacion2AnimacionSolo" width="620" height="620"
+                        style="background-color: rgb(255, 255, 255);float: left;border-radius: 10px;">
 
                     </canvas>
                 </div>
@@ -224,11 +232,11 @@
                 <div class="mostrarDondeNoConclusion">
 
                     $A$ es infinito, tiene algun punto de acumulación
-                    <br>
-                    <div style="text-align:center">
+
+                    <div style="text-align:center; margin: 20px;">
                         No es verdad.
                     </div>
-                    <br>
+
                     Ejemplo: $\mathbb{Z} \subset \mathbb{R}$
                 </div>
             </div>
@@ -236,6 +244,22 @@
         </div>
 
         <div class="slide">
+            <div style="margin: 100px;">
+                <div style="float: left; margin-right: 20px;">
+                    <h3>Definición:</h3>
+                    Un conjunto $A \subset \mathbb{R}^n$ está acotado si existe $M>0$ tal que
+                    $$
+                    \forall x \in A \quad |x| \leqslant M .
+                    $$
+                </div>
+                <div style="float: left;">
+                    <canvas id="conjuntoAcotado" width="620" height="620"
+                    style="background-color: rgb(255, 255, 255);float: left;border-radius: 10px;">
+
+                    </canvas>
+                </div>
+            </div>
+
 
         </div>
 
@@ -248,15 +272,17 @@
         <!-- teorema -->
 
         <div class="slide">
-            <div class="theorem" style="width: 80%;">
-                <H1>
-                    Teorema de Bolzano-Weierstrass
-                </H1>
-
-                <div class="definition">
-                    Si un conjunto acotado $S$ de $\mathbb{R}^n$ contiene una infinidad de puntos, entonces existe por
-                    lo
-                    menos un punto de $\mathbb{R}^n$ que es un punto de acumulación de $S$.
+            <div style="margin: 100px;">
+                <div class="theorem">
+                    <H1>
+                        Teorema de Bolzano-Weierstrass
+                    </H1>
+    
+                    <div class="definition">
+                        Si un conjunto acotado $S$ de $\mathbb{R}^n$ contiene una infinidad de puntos, entonces existe por
+                        lo
+                        menos un punto de $\mathbb{R}^n$ que es un punto de acumulación de $S$.
+                    </div>
                 </div>
             </div>
         </div>

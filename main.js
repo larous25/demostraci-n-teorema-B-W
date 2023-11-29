@@ -73,6 +73,8 @@
 
 const canvasPuntoDeAcomulacion = new Animations(document.getElementById('puntoDeAcomulacion'));
 const canvas2PuntoDeAcomulacion = new Animations(document.getElementById('puntoDeAcomulacion2AnimacionSolo'));
+const canvasConjuntoAcotado = new Animations(document.getElementById('conjuntoAcotado'));
+
 var stepAnimationOne = 1;
 var slides = document.querySelectorAll('.slide');
 var currentSlide = 0;
@@ -124,6 +126,7 @@ function slide (number) {
     slides[currentSlide].style.display = 'block';
 
     if(currentSlide == 1) animationTwo();
+    if(currentSlide == 3) animationBoundedSet();
 }
 
 document.getElementById('pBtonSlide1').addEventListener('click', () => {

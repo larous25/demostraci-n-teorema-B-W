@@ -1,16 +1,23 @@
 
 
 class Animations {
-    
+
     outerRadius = 100
     innerRadius = 50
-    
+
     constructor(canvas) {
         this.canvas = canvas
         this.centerX = this.canvas.width / 2
         this.centerY = this.canvas.height / 2
         this.ctx = this.canvas.getContext('2d')
         this.startAnimationDottedCircle = null
+    }
+
+    writePoint(pointX, pointY, text = "", size = 12) {
+
+        this.ctx.font = `${size}px Arial`;
+        this.ctx.fillText(text, pointX + 5, pointY + 5)
+
     }
 
     drawPoint(pointX, pointY, text = "") {
@@ -43,7 +50,7 @@ class Animations {
                 if (elapsed < duration) {
                     this.drawDottedCircle(centerX, centerY, radius, options)
                 } else {
-                    if(typeof options.callback !== 'undefined') {
+                    if (typeof options.callback !== 'undefined') {
                         options.callback()
                     }
                 }
@@ -75,37 +82,23 @@ class Animations {
 
     drawSetShape() {
         const points = [
-            [259, 353],
-            [204, 341],
-            [204, 341],
-            [175, 322],
-            [154, 291],
-            [154, 291],
-            [163, 248],
-            [163, 248],
-            [178, 221],
-            [178, 221],
-            [196, 193],
-            [196, 190],
-            [191, 165],
-            [191, 165],
-            [203, 145],
-            [203, 145],
-            [237, 138],
-            [237, 138],
-            [281, 141],
-            [281, 141],
-            [293, 171],
-            [293, 171],
-            [312, 197],
-            [312, 197],
-            [316, 242],
-            [316, 243],
-            [316, 243],
-            [313, 284],
-            [313, 286],
-            [295, 344],
-            [295, 344]
+            [167, 407],
+            [56, 378],
+            [101, 245],
+            [105, 103],
+            [125, 103],
+            [245, 46],
+            [358, 75],
+            [410, 204],
+            [435, 370],
+            [480, 470],
+            [470, 570],
+            [455, 560],
+            [400, 560],
+            [375, 560],
+            [270, 496],
+            [261, 396],
+            [221, 432]
         ];
 
 
@@ -118,6 +111,9 @@ class Animations {
         this.ctx.stroke()
     }
 
+    isPointInSet(pointX, pointY) {
+        return this.ctx.isPointInPath(pointX, pointY)
+    }
 
     animationOneStepOne() {
         this.ctx.fillStyle = 'black';
@@ -223,16 +219,66 @@ function animationOne(step) {
 }
 
 function animationTwo() {
+    let counter = 0;
+    canvas2PuntoDeAcomulacion.clearCanvas()
     canvas2PuntoDeAcomulacion.animationOneStepOne()
     canvas2PuntoDeAcomulacion.drawPoint(450, 450)
     canvas2PuntoDeAcomulacion.drawPoint(400, 200)
     canvas2PuntoDeAcomulacion.drawPoint(150, 425)
-    
+
     canvas2PuntoDeAcomulacion.animationCircleReset()
-    
-    canvas2PuntoDeAcomulacion.drawDottedCircle(300, 300, 144, {
+
+    canvas2PuntoDeAcomulacion.drawDottedCircle(300, 300, 142, {
         animate: true,
-        numberOfDots: 100
+        numberOfDots: 100,
+        callback: () => {
+            if (counter < 3) {
+                animationTwo()
+            }
+        }
     });
 }
 
+function animationBoundedSet() {
+    canvasConjuntoAcotado.clearCanvas()
+    canvasConjuntoAcotado.drawSetShape()
+    canvasConjuntoAcotado.drawPoint(150, 400)
+    
+    let i = 100;
+    let j = 50;
+
+    function drawPoints() {
+        if (canvasConjuntoAcotado.isPointInSet(i, j)) {
+            canvasConjuntoAcotado.drawPoint(i, j);
+        }
+
+        j += 20;
+        if (j >= 560) {
+            j = 50;
+            i += 20;
+        }
+
+        if (i < 560) {
+            setTimeout(drawPoints, 50); 
+        }
+    }
+
+    drawPoints();
+    canvasConjuntoAcotado.writePoint(259, 560, 'A', size = 20)
+}
+
+
+
+function animationProof1() {
+    canvasConjuntoAcotado.clearCanvas()
+    canvasConjuntoAcotado.drawSetShape()
+    canvasConjuntoAcotado.drawDottedCircle(300, 300, 200, {
+        animate: true,
+        numberOfDots: 100,
+        callback: () => {
+            if (counter < 3) {
+                animationBoundedSet()
+            }
+        }
+    });
+}
