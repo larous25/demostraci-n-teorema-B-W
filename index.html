@@ -10,6 +10,7 @@
             background-color: #031331;
             color: white;
             font-size: 28px;
+            overflow: hidden;
         }
 
         .carousel {
@@ -82,6 +83,51 @@
         .theorem {
             margin: 100px;
         }
+
+        .btns1slide {
+            margin: 20px;
+        }
+
+        .btns1slide button {
+            border: none;
+            color: #031331;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .mostrarDondeNo {
+            color: whitesmoke;
+            background-color: #031331;
+            border: whitesmoke 2px solid;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .mostrarDondeNoConclusion {
+            display: none;
+            animation: fadeIn 1s;
+        }
+
+        .minislide {
+            padding: 20px;
+        }
+
+        .minislide:hover {
+            cursor: pointer;
+            background-color: #123270;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -97,7 +143,7 @@
                 Sean $A \in \mathbb{R}^n$ y $x \in \mathbb{R}^n$. $x$ es un punto de acumulacion
                 de $A$ si y solo si para toda $r>0$ se tiene que $B_r(x) \cap A$ sea un conjunto infinito.
 
-                <div class="">
+                <div class="btns1slide">
                     <button id="pBtonSlide1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-arrow-up" viewBox="0 0 16 16">
@@ -114,17 +160,92 @@
                     </button>
                 </div>
             </div>
-            <canvas id="myCanvas" width="600" height="600" style="background-color: rgb(161, 210, 255);"></canvas>
+            <canvas id="puntoDeAcomulacion" width="600" height="600" style="background-color: rgb(255, 255, 255);"></canvas>
         </div>
+
+
+        <div class="slide">
+
+            <div style="margin: 100px;width: 85%;">
+                <div style="width: 58%;float: left;box-sizing: content-box;">
+                    <h3>Demostración</h3>
+
+                    $\Rightarrow$ Supongamos que existe $r>0$ tal que $B_r(x) \cap A$ es un conjunto finito.
+
+                    <div class="minislide">
+                        Si $\left(B_1(x) \backslash\{x\}\right) \cap A=\emptyset$, entonces $x$ no es punto de
+                        acumulación de
+                        $A$.
+                    </div>
+
+                    <div class="minislide active">
+                        Si $\left(B_r(x) \backslash\{x\}\right) \cap A \neq \emptyset$, entonces $\left(B_r(x)
+                        \backslash\{x\}\right) \cap A=\left\{x_1, \ldots, x_k\right\}$. Definimos
+                        $$r_0=\min \left\{d\left(x, x_i\right) \mid i \in\{1, \ldots, k\}\right\} \Rightarrow r_0>0.$$
+                        Como $r_0 \leqslant d\left(x, x_i\right) \Rightarrow x_i \notin B_{r_0}(x)$ para cada $i \in\{1,
+                        \ldots,
+                        k\}$. Dado que
+
+                        $$B_{r_0} \subset B_r \Rightarrow\left(B_{r_0}(x) \backslash\{x\}\right) \cap A=\emptyset.$$
+                    </div>
+                    <br>
+                    $\therefore x \notin A^{\prime}$.
+                    <br>
+                    $\Leftarrow$ Sea $r>0$. Como $B_r(x) \cap A$ es un conjunto infinito,
+                    <div class="minislide">
+                        entonces $\left(B_r(x) \backslash\{x\}\right) \cap A \neq \emptyset$ (tambien es infinito)
+                    </div>
+                    <br>
+                    Por lo tanto $x \in A^{\prime}$.
+                </div>
+                <div style="width: 40%; float: left;padding: 15px;">
+                    <canvas id="puntoDeAcomulacion2AnimacionSolo" width="600" height="600">
+
+                    </canvas>
+                </div>
+            </div>
+
+        </div>
+
 
         <div class="slide">
             <div style="margin: 100px;">
-                Corolaradio. Si $A \subset \mathbb{R}^n $ tiene algun punto de acumulación, entonces $A$ es infinito.
-                $$
-                B_r(\bar{x}) \cap A
-                $$
+                <div>
+                    Corolaradio. Si $A \subset \mathbb{R}^n $ tiene algun punto de acumulación, entonces $A$ es
+                    infinito.
+                    $$
+                    B_r(x) \cap A
+                    $$
+                </div>
+
+                <div style="padding: 20px;">
+                    <button class="mostrarDondeNo">Mostrar</button>
+                </div>
+                <div class="mostrarDondeNoConclusion">
+
+                    $A$ es infinito, tiene algun punto de acumulación
+                    <br>
+                    <div style="text-align:center">
+                        No es verdad.
+                    </div>
+                    <br>
+                    Ejemplo: $\mathbb{Z} \subset \mathbb{R}$
+                </div>
             </div>
+
         </div>
+
+        <div class="slide">
+
+        </div>
+
+        <div class="slide">
+
+        </div>
+
+
+
+        <!-- teorema -->
 
         <div class="slide">
             <div class="theorem" style="width: 80%;">
@@ -161,7 +282,7 @@
                 donde $x_{k} \in I_{k}^{(1)}$ y donde cada $I_{k}^{(1)}$ es un intervalo unidimensional $-a \leq x_k
                 \leq
                 a$. Cada intervalo $I_{k }^{1}$ se puede subdividir en dos subintervalos $I_{k, 1}^{(1)}$ e $I_{k,
-                2}^{(i)}$
+                2}^{(1)}$
                 definidos por las desigualdades
 
                 $$
@@ -249,6 +370,14 @@
         </div>
         <div class="controls">
             <div class="btns">
+                <button id="fullscreenButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-fullscreen" viewBox="0 0 16 16">
+                        <path
+                            d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5" />
+                    </svg>
+                </button>
+
                 <button id="prevBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-arrow-up" viewBox="0 0 16 16">

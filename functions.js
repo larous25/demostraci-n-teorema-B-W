@@ -1,206 +1,238 @@
-var canvas = document.getElementById('myCanvas')
-var ctx = canvas.getContext('2d')
-var startAnimationDottedCircle = null;
 
-function drawPoint(pointX, pointY, text = "") {
-    // Dibujar el punto
-    ctx.fillRect(pointX, pointY, 5, 5)
 
-    if (text) {
-        // Dibujar el texto
-        ctx.font = "12px Arial";
-        ctx.fillText(text, pointX + 5, pointY + 5)
+class Animations {
+    
+    outerRadius = 100
+    innerRadius = 50
+    
+    constructor(canvas) {
+        this.canvas = canvas
+        this.centerX = this.canvas.width / 2
+        this.centerY = this.canvas.height / 2
+        this.ctx = this.canvas.getContext('2d')
+        this.startAnimationDottedCircle = null
     }
-}
 
-function drawDottedCircle(centerX, centerY, radius, options = {}) {
-   
-    if ((typeof options.animate !== 'undefined') && options.animate) {
+    drawPoint(pointX, pointY, text = "") {
+        // Dibujar el punto
+        this.ctx.fillRect(pointX, pointY, 5, 5)
 
-        window.requestAnimationFrame(timestamp => {
-            if (!startAnimationDottedCircle) {
-                startAnimationDottedCircle = timestamp
-            }
-
-            const elapsed = timestamp - startAnimationDottedCircle
-            const duration = 2500
-            const progress = Math.min(elapsed/duration, 1)
-
-            let angle = progress * 2 * Math.PI 
-            drawDotCircle(centerX, centerY, radius, angle)
-                           
-            if (elapsed < duration) {
-                drawDottedCircle(centerX, centerY, radius, options)
-            }
-        })
-    } else {
-        const numberOfDots = 150;
-        for (let i = 0; i < numberOfDots; i++) {
-            let angle = i * 2 * Math.PI / numberOfDots
-            drawDotCircle(centerX, centerY, radius, angle)
+        if (text) {
+            // Dibujar el texto
+            this.ctx.font = "12px Arial";
+            this.ctx.fillText(text, pointX + 5, pointY + 5)
         }
     }
-}
 
-function drawDotCircle(centerX, centerY, radius, angle) {
-    let dotX = centerX + radius * Math.cos(angle)
-    let dotY = centerY + radius * Math.sin(angle)
-    ctx.fillRect(dotX, dotY, 2, 2)
-}
+    drawDottedCircle(centerX, centerY, radius, options = {}) {
 
-function drawCircle(x, y, radius) {
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-    // ctx.fillStyle = 'green';
-    // ctx.fill();
-    // ctx.lineWidth = 5;
-    // ctx.strokeStyle = '#003300';
-    ctx.stroke();
-}
+        if ((typeof options.animate !== 'undefined') && options.animate) {
 
-function drawSetShape() {
-    const points = [
-        [259, 353],
-        [204, 341],
-        [204, 341],
-        [175, 322],
-        [154, 291],
-        [154, 291],
-        [163, 248],
-        [163, 248],
-        [178, 221],
-        [178, 221],
-        [196, 193],
-        [196, 190],
-        [191, 165],
-        [191, 165],
-        [203, 145],
-        [203, 145],
-        [237, 138],
-        [237, 138],
-        [281, 141],
-        [281, 141],
-        [293, 171],
-        [293, 171],
-        [312, 197],
-        [312, 197],
-        [316, 242],
-        [316, 243],
-        [316, 243],
-        [313, 284],
-        [313, 286],
-        [295, 344],
-        [295, 344]
-    ];
+            window.requestAnimationFrame(timestamp => {
+                if (!this.startAnimationDottedCircle) {
+                    this.startAnimationDottedCircle = timestamp
+                }
 
+                const elapsed = timestamp - this.startAnimationDottedCircle
+                const duration = 2500
+                const progress = Math.min(elapsed / duration, 1)
 
-    ctx.beginPath();
-    ctx.moveTo(points[0][0], points[0][1]);
-    for (let i = 0; i < points.length - 3; i += 3) {
-        // ctx.arcTo(points[i][0], points[i][1], points[i+1][0], points[i+1][1], 22);
-        console.log(points[i][0], points[i][1], points[i + 1][0], points[i + 1][1], points[i + 2][0], points[i + 2][1])
-        ctx.bezierCurveTo(points[i][0], points[i][1], points[i + 1][0], points[i + 1][1], points[i + 2][0], points[i + 2][1])
+                let angle = progress * 2 * Math.PI
+                this.drawDotCircle(centerX, centerY, radius, angle)
+
+                if (elapsed < duration) {
+                    this.drawDottedCircle(centerX, centerY, radius, options)
+                } else {
+                    if(typeof options.callback !== 'undefined') {
+                        options.callback()
+                    }
+                }
+            })
+        } else {
+            const numberOfDots = 150;
+            for (let i = 0; i < numberOfDots; i++) {
+                let angle = i * 2 * Math.PI / numberOfDots
+                this.drawDotCircle(centerX, centerY, radius, angle)
+            }
+        }
     }
-    ctx.closePath()
-    ctx.stroke()
-}
 
-
-function animationOneStepOne() {
-    ctx.fillStyle = 'black';
-    ctx.fill();
-    drawDottedCircle(centerX, centerY, outerRadius + 200);
-    ctx.fillStyle = 'red';
-    ctx.fill();
-    drawPoint(centerX + 195, centerY + 195);
-    ctx.fillStyle = 'black';
-    ctx.fill();
-    drawPoint(centerX, centerY, 'X');
-}
-
-function animationOneStepTwo(animation = false) {
-    animationOneStepOne();
-    ctx.fillStyle = 'green';
-    ctx.fill();
-    let options = {}
-    if (animation) {
-        startAnimationDottedCircle = undefined;
-        options.animate = true
-        options.numberOfDots = 100
+    drawDotCircle(centerX, centerY, radius, angle) {
+        let dotX = centerX + radius * Math.cos(angle)
+        let dotY = centerY + radius * Math.sin(angle)
+        this.ctx.fillRect(dotX, dotY, 2, 2)
     }
-    drawDottedCircle(centerX, centerY, outerRadius + 160, options);
-}
 
-function animationOneStepThree() {
-    animationOneStepTwo();
-    ctx.fillStyle = 'red';
-    ctx.fill();
-    drawPoint(centerX + 175, centerY + 175);
-}
-
-
-function animationOneStepFour(animation = false) {
-    animationOneStepThree();
-    ctx.fillStyle = 'green';
-    ctx.fill();
-    let options = {}
-    if (animation) {
-        startAnimationDottedCircle = undefined;
-        options.animate = true
-        options.numberOfDots = 100
+    drawCircle(x, y, radius) {
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+        // this.ctx.fillStyle = 'green';
+        // this.ctx.fill();
+        // this.ctx.lineWidth = 5;
+        // this.ctx.strokeStyle = '#003300';
+        this.ctx.stroke();
     }
-    drawDottedCircle(centerX, centerY, outerRadius + 135, options);
-}
 
-function animationOneStepFive(animation = false) {
-    animationOneStepFour();
-    ctx.fillStyle = 'red';
-    ctx.fill();
-    drawPoint(centerX + 155, centerY + 155);
-}
+    drawSetShape() {
+        const points = [
+            [259, 353],
+            [204, 341],
+            [204, 341],
+            [175, 322],
+            [154, 291],
+            [154, 291],
+            [163, 248],
+            [163, 248],
+            [178, 221],
+            [178, 221],
+            [196, 193],
+            [196, 190],
+            [191, 165],
+            [191, 165],
+            [203, 145],
+            [203, 145],
+            [237, 138],
+            [237, 138],
+            [281, 141],
+            [281, 141],
+            [293, 171],
+            [293, 171],
+            [312, 197],
+            [312, 197],
+            [316, 242],
+            [316, 243],
+            [316, 243],
+            [313, 284],
+            [313, 286],
+            [295, 344],
+            [295, 344]
+        ];
 
 
-function animationOneStepSix(animation = false) {
-    animationOneStepFive();
-    ctx.fillStyle = 'green';
-    ctx.fill();
-    let options = {}
-    for(let i = 0; i < 150; i++) {
-        ctx.fillStyle = 'red';
-        ctx.fill();
-        drawPoint(centerX + 150-i, centerY + 150 - i );
+        this.ctx.beginPath();
+        this.ctx.moveTo(points[0][0], points[0][1]);
+        for (let i = 0; i < points.length - 3; i += 3) {
+            this.ctx.bezierCurveTo(points[i][0], points[i][1], points[i + 1][0], points[i + 1][1], points[i + 2][0], points[i + 2][1])
+        }
+        this.ctx.closePath()
+        this.ctx.stroke()
+    }
+
+
+    animationOneStepOne() {
+        this.ctx.fillStyle = 'black';
+        this.ctx.fill();
+        this.drawDottedCircle(this.centerX, this.centerY, this.outerRadius + 200);
+        this.ctx.fillStyle = 'red';
+        this.ctx.fill();
+        this.drawPoint(this.centerX + 195, this.centerY + 195);
+        this.ctx.fillStyle = 'black';
+        this.ctx.fill();
+        this.drawPoint(this.centerX, this.centerY, 'X');
+    }
+
+    animationOneStepTwo(animation = false) {
+        this.animationOneStepOne();
+        this.ctx.fillStyle = 'green';
+        this.ctx.fill();
+        let options = {}
+        if (animation) {
+            this.startAnimationDottedCircle = undefined;
+            options.animate = true
+            options.numberOfDots = 100
+        }
+        this.drawDottedCircle(this.centerX, this.centerY, this.outerRadius + 160, options);
+    }
+
+    animationOneStepThree() {
+        this.animationOneStepTwo();
+        this.ctx.fillStyle = 'red';
+        this.ctx.fill();
+        this.drawPoint(this.centerX + 175, this.centerY + 175);
+    }
+
+
+    animationOneStepFour(animation = false) {
+        this.animationOneStepThree();
+        this.ctx.fillStyle = 'green';
+        this.ctx.fill();
+        let options = {}
+        if (animation) {
+            this.startAnimationDottedCircle = undefined;
+            options.animate = true
+            options.numberOfDots = 100
+        }
+        this.drawDottedCircle(this.centerX, this.centerY, this.outerRadius + 135, options);
+    }
+
+    animationOneStepFive(animation = false) {
+        this.animationOneStepFour();
+        this.ctx.fillStyle = 'red';
+        this.ctx.fill();
+        this.drawPoint(this.centerX + 155, this.centerY + 155);
+    }
+
+
+    animationOneStepSix(animation = false) {
+        this.animationOneStepFive();
+        this.ctx.fillStyle = 'green';
+        this.ctx.fill();
+        let options = {}
+        for (let i = 0; i < 150; i++) {
+            this.ctx.fillStyle = 'red';
+            this.ctx.fill();
+            this.drawPoint(this.centerX + 150 - i, this.centerY + 150 - i);
+        }
+    }
+
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    animationCircleReset() {
+        this.startAnimationDottedCircle = undefined;
     }
 }
-
 
 
 // animation
 function animationOne(step) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     if (step == 1) {
-        animationOneStepOne()
+        canvasPuntoDeAcomulacion.animationOneStepOne()
     }
 
     if (step == 2) {
-        animationOneStepTwo(true)
+        canvasPuntoDeAcomulacion.animationOneStepTwo(true)
     }
 
     if (step == 3) {
-        animationOneStepThree()
+        canvasPuntoDeAcomulacion.animationOneStepThree()
     }
 
     if (step == 4) {
-        animationOneStepFour(true)
+        canvasPuntoDeAcomulacion.animationOneStepFour(true)
     }
 
     if (step == 5) {
-        animationOneStepFive()
+        canvasPuntoDeAcomulacion.animationOneStepFive()
     }
 
     if (step == 6) {
-        animationOneStepSix(true)
+        canvasPuntoDeAcomulacion.animationOneStepSix(true)
     }
+}
 
+function animationTwo() {
+    canvas2PuntoDeAcomulacion.animationOneStepOne()
+    canvas2PuntoDeAcomulacion.drawPoint(450, 450)
+    canvas2PuntoDeAcomulacion.drawPoint(400, 200)
+    canvas2PuntoDeAcomulacion.drawPoint(150, 425)
+    
+    canvas2PuntoDeAcomulacion.animationCircleReset()
+    
+    canvas2PuntoDeAcomulacion.drawDottedCircle(300, 300, 144, {
+        animate: true,
+        numberOfDots: 100
+    });
 }
 

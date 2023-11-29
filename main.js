@@ -1,11 +1,3 @@
-var canvas = document.getElementById('myCanvas');
-var ctx = canvas.getContext('2d');
-
-var centerX = canvas.width / 2;
-var centerY = canvas.height / 2;
-var outerRadius = 100;
-var innerRadius = 50;
-
 
 
 // function animate() {
@@ -79,24 +71,60 @@ var innerRadius = 50;
 
 
 
-
+const canvasPuntoDeAcomulacion = new Animations(document.getElementById('puntoDeAcomulacion'));
+const canvas2PuntoDeAcomulacion = new Animations(document.getElementById('puntoDeAcomulacion2AnimacionSolo'));
 var stepAnimationOne = 1;
 var slides = document.querySelectorAll('.slide');
 var currentSlide = 0;
 
+var conclusion = document.querySelector('.mostrarDondeNoConclusion');
+
+
+
+
 animationOne(stepAnimationOne)
 
+
+document.getElementById('fullscreenButton').addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            document.documentElement.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    }
+});
+
 document.getElementById('prevBtn').addEventListener('click', () => {
-    slides[currentSlide].style.display = 'none';
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    slides[currentSlide].style.display = 'block';
+    slide(currentSlide - 1 + slides.length)
 });
 
 document.getElementById('nextBtn').addEventListener('click', () => {
-    slides[currentSlide].style.display = 'none';
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].style.display = 'block';
+    slide(currentSlide + 1)
 });
+
+
+function slide (number) {
+    slides[currentSlide].style.display = 'none';
+    currentSlide = (number) % slides.length;
+    slides[currentSlide].style.display = 'block';
+
+    if(currentSlide == 1) animationTwo();
+}
 
 document.getElementById('pBtonSlide1').addEventListener('click', () => {
     stepAnimationOne--;
@@ -106,3 +134,11 @@ document.getElementById('nBtonSlide1').addEventListener('click', () => {
     stepAnimationOne++;
     animationOne(stepAnimationOne);
 });
+
+
+document.querySelector('.mostrarDondeNo').addEventListener('click', () => {
+    conclusion.style.display = 'block';
+});
+
+
+
